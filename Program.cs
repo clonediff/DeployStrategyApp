@@ -1,6 +1,6 @@
 using Prometheus;
 
-const string Version = "v2",
+const string Version = "v1",
     VersionLabel = "Version";
 
 const string InstanceIdLabel = "InstanceId";
@@ -16,6 +16,8 @@ app.MapGet("/", () =>
     RequestsTotal.WithLabels(Version, InstanceId).Inc();
     return "Hello World!";
 });
+
+app.MapGet("/healthcheck", () => Results.Ok());
 
 app.MapMetrics();
 
