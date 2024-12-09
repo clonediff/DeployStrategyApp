@@ -1,6 +1,6 @@
 using Prometheus;
 
-const string Version = "v1",
+const string Version = "v2",
     VersionLabel = "Version";
 
 const string InstanceIdLabel = "InstanceId";
