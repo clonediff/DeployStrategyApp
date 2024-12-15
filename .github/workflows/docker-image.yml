@@ -16,5 +16,5 @@ jobs:
       run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:${{ github.event.inputs.version }}
     - name: Push the Docker image to Docker Hub
       run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker push clonediff/deploystrategyapp:${{ github.event.inputs.version }}
