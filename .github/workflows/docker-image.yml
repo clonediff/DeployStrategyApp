@@ -10,17 +10,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: Get the latest tag
       id: get_tag
-      run: |
-        tag=$(git describe --tags --abbrev=0)
-        echo "tag=$tag" >> $GITHUB_ENV
+      run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
     - name: Log the tag
-      run: echo "Latest tag: ${{ env.tag }}"
+      run: echo "Latest tag: $tag"
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:${{ env.tag }}
+      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:$tag
     - name: Push the Docker image to Docker Hub
-      env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push clonediff/deploystrategyapp:${{ env.tag }}
