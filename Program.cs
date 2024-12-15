@@ -14,7 +14,7 @@ var app = builder.Build();
 app.MapGet("/", () =>
 {
     RequestsTotal.WithLabels(Version, InstanceId).Inc();
-    return $"Version: {Version}\tResponse from {InstanceId}\n\n";
+    return $"Version: {Version}\tResponse from {InstanceId}\n";
 });
 
 app.MapGet("/healthcheck", () => Results.Ok());
