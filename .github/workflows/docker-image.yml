@@ -7,15 +7,15 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get the latest tag
       id: get_tag
-      run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
     - name: Log the tag
-      run: echo "Latest tag: ${{ env.tag }}"
+      run: echo "Latest tag: $TAG"
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:$tag
+      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:$TAG
     - name: Push the Docker image to Docker Hub
       run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push clonediff/deploystrategyapp:${{ env.tag }}
+          docker push clonediff/deploystrategyapp:$TAG
