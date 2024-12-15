@@ -9,10 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Get the latest tag
-      id: get_tag
       run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
     - name: Log the tag
-      run: echo "Latest tag: $TAG"
+      run: echo $TAG
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:$TAG
     - name: Push the Docker image to Docker Hub
