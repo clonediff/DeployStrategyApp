@@ -1,20 +1,20 @@
 name: Docker Image CI
 
 on:
-  workflow_dispatch: # Запуск только вручную
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Введите версию образа'
+        required: true
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Get the latest tag
-      run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-    - name: Log the tag
-      run: echo $TAG
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:$TAG
+      run: docker build . --file Dockerfile --tag clonediff/deploystrategyapp:${{ github.event.inputs.version }}
     - name: Push the Docker image to Docker Hub
       run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push clonediff/deploystrategyapp:$TAG
+          docker push clonediff/deploystrategyapp:${{ github.event.inputs.version }}
